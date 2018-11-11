@@ -6,8 +6,22 @@
 **/
 namespace PgPerf\domain;
 
+use \DateTime;
+use PgPerf\domain\UnitTimeEnum;
+
 abstract class AbstractModel
 {
+    /**
+    *   cast property attribute
+    *
+    **/
+    protected const BOOL = 'bool';
+    protected const INTEGER = 'integer';
+    protected const FLOAT = 'float';
+    protected const STRING = 'striNG';
+    protected const DATE = 'date';
+    protected const DATETIME = 'datetime';
+    
     /**
     *   properties from repository
     *
@@ -21,6 +35,13 @@ abstract class AbstractModel
     *   @var array
     **/
     protected $innerProperties = [];
+    
+    /**
+    *   cast property attribute
+    *
+    *   @var array
+    **/
+    protected $casts = [];
     
     /**
     *   dataContainer
@@ -50,6 +71,12 @@ abstract class AbstractModel
         $this->generateInnerPropertyData();
         $this->unitTimeEnum = $unitTimeEnum;
     }
+    
+    /**
+    *   generateInnerPropertyData
+    *
+    **/
+    abstract protected function generateInnerPropertyData();
      
     /**
     *   fromArray
@@ -59,10 +86,22 @@ abstract class AbstractModel
     protected function fromArray(array $data)
     {
         foreach ($this->properties as $name) {
-            if (array_key_exists($name, $data)) {
-                $propertyName = $this->propertyName($name);
-                $this->dataContainer[$propertyName] = $data[$name];
+            if (!array_key_exists($name, $data)) {
+                continue;
             }
+            
+            if (array_key_exists($name, $this->cast)) {
+                $this->castData($name, $data[$name]);
+                continue;
+            }
+            
+            $propertyName = $this->propertyName($name);
+            $setterName = 'set' . ucFirst($propertyName);
+            
+            $this->dataContainer[$propertyName] =
+                method_exists($setterName, $this)?
+                $this->$setterName($data[$name]):
+                $data[$name];
         }
     }
     
@@ -86,10 +125,50 @@ abstract class AbstractModel
     }
     
     /**
-    *   generateInnerPropertyData
+    *   cast
     *
+    *   @param string $name
+    *   @param mixed $value
     **/
-    abstract protected function generateInnerPropertyData();
+    protected function propertyName(string $name, $value)
+    {
+        if (!isset($value)) {
+            return;
+        }
+        
+        $propertyName = $this->propertyName($name);
+        
+        if ($this->cast[$name] == self::BOOL) {
+            $this->data[$dataContainer] = (bool)$value;
+            return;
+        }
+        
+        if ($this->cast[$name] == self::INTEGER) {
+            $this->data[$dataContainer] = (int)$value;
+            return;
+        }
+        
+        if ($this->cast[$name] == self::FLOAT) {
+            $this->data[$dataContainer] = (float)$value;
+            return;
+        }
+        
+        if ($this->cast[$name] == self::STRING) {
+            $this->data[$dataContainer] = (string)$value;
+            return;
+        }
+        
+        if ($this->cast[$name] == self::DATE) {
+            $this->data[$dataContainer] =
+                (new DateTime($value))->modify('today');
+            return;
+        }
+        
+        if ($this->cast[$name] == self::DATETIME) {
+            $this->data[$dataContainer] = new DateTime($value);
+            return;
+        }
+    }
     
     /**
     *   __isset
@@ -115,4 +194,13 @@ abstract class AbstractModel
         }
         return null;
     }
+    
+    /**
+    *   setter
+    *
+    *   @param string $name
+    *   @return mixed
+    *       セッターを指定する場合、set{PropertyName}
+    *       {PropertyName}:userName => protected function setUserName()
+    **/
 }
