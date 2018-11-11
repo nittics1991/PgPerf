@@ -10,9 +10,10 @@ use PgPerf\view\AbstractView;
 
 class ThroughputView extends AbstractView
 {
-    protected function build()
-
-
-
-
-
+    public function render()
+    {
+        
+        
+        
+    }
+}

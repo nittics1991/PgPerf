@@ -7,7 +7,7 @@
 namespace PgPerf\domain;
 
 use \DateTime;
-use PgPerf\domain\UnitTimeEnum;
+use PgPerf\common\UnitTimeEnum;
 
 abstract class AbstractModel
 {
@@ -168,6 +168,16 @@ abstract class AbstractModel
             $this->data[$dataContainer] = new DateTime($value);
             return;
         }
+    }
+    
+    /**
+    *   toArray
+    *
+    *   @return array
+    **/
+    public function toArray():array
+    {
+        return $this->dataContainer;
     }
     
     /**

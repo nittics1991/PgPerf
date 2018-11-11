@@ -34,6 +34,7 @@ abstract class AbstractRepository implements RepositoryInterface
     **/
     public function all():array
     {
+        $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->pdo->setAttribute(PDO::FETCH_ASSOC);
         $stmt = $this->pdo->prepare($this->allSql);
         $stmt->execute();

@@ -37,6 +37,10 @@ class Throughput extends AbstractModel
         $this->rollbackPerTime();
     }
     
+    /**
+    *   commitPerTime
+    *
+    **/
     private function commitPerTime()
     {
         if (!isset($this->xactCommit) ||
@@ -47,20 +51,29 @@ class Throughput extends AbstractModel
         }
             
         $this->dataContainer['commitPerTime'] =
-            
-            
-            
-            $this->xactCommit 
-            
-            
-            
+            $this->xactCommit *
+            $this->unitTimeEnum /            
             (strtotime($this->timestamp) -
-            strtotime($stats_reset)) /
-            $this->unitTimeEnum;
+            strtotime($stats_reset));
     }
     
-    
-    ad/(b-c)
-    
-    
+    /**
+    *   rollbackPerTime
+    *
+    **/
+    private function rollbackPerTime()
+    {
+        if (!isset($this->xactRollback) ||
+            !isset($this->timestamp) ||
+            empty($this->timestamp)
+        ) {
+            $this->dataContainer['rollbackPerTime'] = 0;
+        }
+            
+        $this->dataContainer['rollbackPerTime'] =
+            $this->xactRollback *
+            $this->unitTimeEnum /            
+            (strtotime($this->timestamp) -
+            strtotime($stats_reset));
+    }
 }
