@@ -45,19 +45,22 @@ class Throughput extends AbstractModel
         ) {
             $this->dataContainer['commitPerTime'] = 0;
         }
-        
-        
-        //UnitTimeEnum
-        //時間間隔をどうあつかうか？
-        
-        $now = new Date();
-        $start = new Date($this->timestamp);
-        
-        
-        
-    
-    
+            
+        $this->dataContainer['commitPerTime'] =
+            
+            
+            
+            $this->xactCommit 
+            
+            
+            
+            (strtotime($this->timestamp) -
+            strtotime($stats_reset)) /
+            $this->unitTimeEnum;
     }
+    
+    
+    ad/(b-c)
     
     
 }

@@ -1,6 +1,6 @@
 <?php
 /**
-*   Model
+*   Enum
 *
 *
 **/

@@ -1,24 +1,26 @@
 <?php
 /**
-*   Model
+*   Enum
 *
 *
 **/
 namespace PgPerf\domain;
 
-class UnitTimeEnum
+use PgPerf\domain\Enum;
+
+class UnitTimeEnum extends Enum
 {
     /**
     *   {inherit}
     *
     **/
-    private const SECOND = 'PT1S';
-    private const MINUTE = 'PT1M';
-    private const HOUR = 'PT1H';
-    private const DAY = 'P1D';
-    private const WEEK = 'P1W';
-    private const MONTH = 'P1M';
-    private const QUOTE = 'P3M';
-    private const FISCAL = 'P6M';
-    private const YEAR = 'P1Y';
+    private const SECOND = 1;
+    private const MINUTE = 60;
+    private const HOUR = self::MINUTE * 60;
+    private const DAY = self::HOUR * 24;
+    private const WEEK = self::DAY * 7;
+    private const MONTH = self::DAY * 30;
+    private const QUOTE = self::MONTH * 3;
+    private const FISCAL = self::MONTH * 6;
+    private const YEAR = self::DAY * 365;
 }
