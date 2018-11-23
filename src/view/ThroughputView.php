@@ -12,6 +12,8 @@ class ThroughputView extends AbstractView
 {
     protected function build(AbstractModel $model):array
     {
+        $title = 'Throughput';
+        
         $chartData = [
             
             
@@ -22,6 +24,9 @@ class ThroughputView extends AbstractView
         
         $chartData = $this->toJson($chartData);
         
-        return compact('chartData');
+        return compact(
+            'title',
+            'chartData'
+        );
     }
 }

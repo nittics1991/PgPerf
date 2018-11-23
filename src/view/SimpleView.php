@@ -41,14 +41,15 @@ class SimpleView
     {
         extract($model->toArray());
         extract($this->build($model));
-        include($this->templateName);
+        $this->header();
+        require($this->templateName);
     }
     
     /**
     *   build
     *
     *   @param AbstractModel $model
-    *   @param array
+    *   @return array
     **/
     protected function build(AbstractModel $model):array
     {
@@ -59,7 +60,7 @@ class SimpleView
     *   escape
     *
     *   @param string $value
-    *   @param string
+    *   @return string
     **/
     protected function escape(string $value):string
     {
@@ -70,7 +71,7 @@ class SimpleView
     *   toJson
     *
     *   @param mixed $value
-    *   @param string
+    *   @return string
     **/
     protected function toJson($value):string
     {
@@ -80,6 +81,26 @@ class SimpleView
             JSON_HEX_AMP |
             JSON_HEX_APOS |
             JSON_HEX_QUOT
+        );
+    }
+    
+    /**
+    *   header
+    *
+    **/
+    protected function header()
+    {
+        header('Content-Type: text/html; charset=UTF-8');
+        header('X-XSS-Protection:1; mode=block');
+        header('X-Content-Type-Options:nosniff');
+        header('X-Frame-Options:DENY');
+        header('Vary: User-Agent');　
+        header('Vary: Accept-Encoding');
+        header('Vary: Accept-Language');
+        header('Vary: Cookie');
+        header(
+            "Content-Security-Policy: default-src 'self';" .
+            " script-src 'self'"
         );
     }
 }
