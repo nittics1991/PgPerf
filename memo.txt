@@ -34,5 +34,31 @@ http://example.com/chart/throughput/dataset
 http://example.com/sidemenu
 
 repositoryImpleのormを考える
-軽量にしたい
+軽量にしたい==>不要か?
+
+
+//sample
+https://qiita.com/nunulk/items/4b5c15f13ade660cafbc
+
+//viewへのデータ名のパターン化
+//２軸チャート
+横軸:no or datetimeのどっち?
+縦軸:data1,data2,...
+
+//１軸チャート
+data1,data2,...
+
+//HTMLから必要な変数
+$html.title 画面タイトル
+$html.scriptUrl + 画面名js
+$html.cssUrl + 画面名css
+
+//チャートのグラフ順番定義configとかどうする?
+//画面から定義、config/provider定義？
+
+//JSでのチャート定義の外部化方法は?
+
+
+
+
 
