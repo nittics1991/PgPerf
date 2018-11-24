@@ -1,0 +1,38 @@
+今風にframeworkとか使う練習
+
+slim,twig,riotで構築
+scss/less
+bootstrapは考える
+
+frameworkとの切り分け注意
+psr7/httpMessage,15/middlewareとdomainActionの接続
+psr11/containerはframework,domainはfactory
+
+psr/logやpsr/httpFactoryの利用
+
+TableTemplete,ChartTemplate等に集約
+riotでrender
+
+responcibe画面の切り替えを考える
+
+view or jsでlanguageのjp/en
+
+名前でclss,view,js,cssなどのファイルを解決
+throughput.js chart.js ??
+
+
+REST風に
+
+//呼び出し chart/table表示
+http://example.com/chart/throughput
+http://example.com/table/throughput?lang=jp
+
+//parts ajax
+http://example.com/chart/throughput/dataset
+
+//共通メニューデータ
+http://example.com/sidemenu
+
+repositoryImpleのormを考える
+軽量にしたい
+
