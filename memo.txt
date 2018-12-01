@@ -117,12 +117,12 @@ class TableId
 
 trait GetAccessor
 {
-    protected $getters = [];
+    protected $getProperties = [];
     
     public function __get($name)
     {
         if (property_exists($this, $name)
-            && in_array($name, $this->getters)
+            && in_array($name, $this->getProperties)
         {
             return $this->$name;
         }    
@@ -133,36 +133,83 @@ trait GetAccessor
 }
 
 //mutateを追加したい
+//casts==>型変換も欲しい
+//getに入れる
+//acsessorはDBとのやりとりに?
+
 trait GetAccessMutator
 {
-    protected $getters = [];
+    protected $getProperties = [];
+    protected $casts = [];
     
     public function __get($name)
     {
         $method = 'get' . mb_convert_case($name, MB_CASE_TITLE);
-        if (method_exists($this, $method) {
+        if (method_exists($this, $method)) {
             return $this->$method();
         }
         
-        if (property_exists($this, $name)
-            && in_array($name, $this->getters)
-        {
-            return $this->$name;
-        }    
-        throw new InvalidArgumentException(
-            "not defined:{$name}"
-        );
+        if (!property_exists($this, $name)
+            || in_array($name, $this->getProperties)
+        ) {
+            throw new InvalidArgumentException(
+                "not defined:{$name}"
+            );
+        }
+        
+        if (array_key_exists($name, $this->casts)) {
+            return $this->casts($name);
+        }
+        return $this->$name;
+    }
+    
+    protected function cast(string $name)
+    {
+        switch ($this->casts[$name]) {
+            case 'bool':
+                return (bool)$this->$name;
+            case 'int':
+                return (int)$this->$name;
+            case 'float':
+                return (float)$this->$name;
+            case 'string':
+                return (string)$this->$name;
+                
+                
+                //フォーマット指定あり・なし
+                date:Y-m-d
+                datetime:Y-m-d H:i:s
+                time:His
+                
+                //どうする？
+                object
+                array
+                json
+                
+            
+            
+            
+            
+            default:
+                throw new InvalidArgumentException(
+                    "definition is wrong:{$name}"
+                );
+        }
     }
 }
 
+
+//以下set accessorは（要修正）
+
 trait SetAccessor
 {
-    protected $setters = [];
+    protected $setProperties = [];
     
     public function __set($name, $value)
     {
+        //getterと同じように先に存在しないを判定（要修正）
         if (property_exists($this, $name)
-            && in_array($name, $this->setters)
+            && in_array($name, $this->setProperties)
         {
             $this->$name = $value;
         }    
@@ -174,7 +221,7 @@ trait SetAccessor
 
 trait SetAccessMutator
 {
-    protected $setters = [];
+    protected $setProperties = [];
     
     public function __set($name)
     {
@@ -183,8 +230,9 @@ trait SetAccessMutator
             $this->$method($value);
         }
         
+        //getterと同じように先に存在しないを判定（要修正）
         if (property_exists($this, $name)
-            && in_array($name, $this->setters)
+            && in_array($name, $this->setProperties)
         {
             $this->$name = $value;
         }    
@@ -194,18 +242,39 @@ trait SetAccessMutator
     }
 }
 
-//casts==>型変換も欲しい
-//getterに入れる
-//acsessorはDBとのやりとりに
+///////////////////////////
 
 
 //accessorとは別に、上記ドメインobjではsetter/getterの方が良いのでは?
 
-trait Settor
+trait PropertyAccessor
 {
+    protected $gettors = [];
+    protected $settors = [];
     
-    
-    
+    publif cunction __call($name, array $arg)
+    {
+        $type = mb_substr($name, 0, 3);
+        $name = mb_substr($name, 3);
+        
+        if ($type == 'get'
+            && in_array($name, $this->gettors)
+            && property_exists($this, $name)
+        ) {
+            return $this->$name;
+        }
+        
+        if ($type == 'set'
+            && in_array($name, $this->settors)
+            && property_exists($this, $name)
+        ) {
+            $this->$name = $arg;
+            return $this;
+        }
+        throw new BadMethodCallException(
+            "not defined:{$name}"
+        );
+    }
 }
 
 
