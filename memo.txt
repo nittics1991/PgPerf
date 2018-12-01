@@ -1,0 +1,111 @@
+まずはDDDを意識しよう
+共通を見つけたらclassに抽出
+use caseのclassを見つける
+database tableとは別
+//テーブル情報をclassにするアプローチもある==>branch master
+
+
+//記録ID
+class PgPerfRecordId //entity
+{
+    private $id; //int=serialNo
+    private $pgPerfRecordDate; //PgPerfRecordDate
+    
+    //共通
+    public function equals(PgPerfRecordId $id):bool
+    {
+    }
+    
+    //共通
+    //getter id,pgPerfRecordDate
+    
+    
+}
+
+//記録日
+class PgPerfRecordDate //valueObject=immutable
+{
+    private $data;  //DateTimeInterface
+    
+    //共通
+    public function format(string $format):string
+    {
+    }
+    
+}
+
+//データベースサイズ usecase class/aggrigate チャートに使うクラス
+class DatabaseSize
+{
+    private $databaseId;
+    private $pgPerfRecordId;
+    private $size;  //file size class
+    
+    //getter
+    //共通
+    //toArray
+    
+}
+
+//ファイルサイズは1024B/1000B区切りで異なる
+class FileSize //extends/implements Number ==>python Number参照 valueObject
+{
+    const public GOOD_PLACE = 1000;
+    const public BAD_PLACE = 1024;
+    
+    
+    private $data;
+    private $baseUnit;  //基数1024/1000
+    
+    public function __construct(int $data, $baseUnit = FileSize::BAD_PLACE):FileSize
+    {
+        
+        
+        
+    }
+    
+    
+    //基数を考慮して
+   public function add(FileSize $fileSize, $baseUnit = FileSize::BAD_PLACE):FileSize
+    {
+        
+        
+        
+        
+        return new FileSize($data, $baseUnit);
+    }
+   
+    //getter data,baseUnit
+    //get数値
+    
+}
+
+//データベース識別
+classDatabaseId //entity
+{
+    private $id;    //postgresとかtemplate0,userTable1...
+    
+    
+}
+
+//テーブルレコード数?　usecase class/aggrigate チャートに使うクラス
+{
+    private $databaseId;
+    private $pgPerfRecordId;
+    private $tableId;
+    private $rowCount;  //int
+    
+}
+
+
+
+//テーブル識別
+class TableId
+{
+    private $id; //public.mst_tanto
+    
+    
+}
+
+
+
