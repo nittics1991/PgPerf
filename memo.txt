@@ -32,6 +32,8 @@ class PgPerfRecordDate //valueObject=immutable
     {
     }
     
+    //getter
+    
 }
 
 //データベースサイズ usecase class/aggrigate チャートに使うクラス
@@ -106,6 +108,107 @@ class TableId
     
     
 }
+
+
+////////////////////////
+//別に、mutatorを特別扱いしなくても良いのでは
+//始めからmutator
+
+
+trait GetAccessor
+{
+    protected $getters = [];
+    
+    public function __get($name)
+    {
+        if (property_exists($this, $name)
+            && in_array($name, $this->getters)
+        {
+            return $this->$name;
+        }    
+        throw new InvalidArgumentException(
+            "not defined:{$name}"
+        );
+    }
+}
+
+//mutateを追加したい
+trait GetAccessMutator
+{
+    protected $getters = [];
+    
+    public function __get($name)
+    {
+        $method = 'get' . mb_convert_case($name, MB_CASE_TITLE);
+        if (method_exists($this, $method) {
+            return $this->$method();
+        }
+        
+        if (property_exists($this, $name)
+            && in_array($name, $this->getters)
+        {
+            return $this->$name;
+        }    
+        throw new InvalidArgumentException(
+            "not defined:{$name}"
+        );
+    }
+}
+
+trait SetAccessor
+{
+    protected $setters = [];
+    
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)
+            && in_array($name, $this->setters)
+        {
+            $this->$name = $value;
+        }    
+        throw new InvalidArgumentException(
+            "not defined:{$name}"
+        );
+    }
+}
+
+trait SetAccessMutator
+{
+    protected $setters = [];
+    
+    public function __set($name)
+    {
+        $method = 'set' . mb_convert_case($name, MB_CASE_TITLE);
+        if (method_exists($this, $method) {
+            $this->$method($value);
+        }
+        
+        if (property_exists($this, $name)
+            && in_array($name, $this->setters)
+        {
+            $this->$name = $value;
+        }    
+        throw new InvalidArgumentException(
+            "not defined:{$name}"
+        );
+    }
+}
+
+//casts==>型変換も欲しい
+//getterに入れる
+//acsessorはDBとのやりとりに
+
+
+//accessorとは別に、上記ドメインobjではsetter/getterの方が良いのでは?
+
+trait Settor
+{
+    
+    
+    
+}
+
+
 
 
 
