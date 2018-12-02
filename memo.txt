@@ -59,6 +59,30 @@ $html.cssUrl + 画面名css
 //JSでのチャート定義の外部化方法は?
 
 
+//RequestやServerの情報はどこでviewに渡すデータを作るか?action?(ADR pattern)
+//render(Model)==>render(Action)?
 
+
+//
+言語とか考えるとActionでconfigの読み込み
+
+
+//
+controller==>frameworkでDomain領域のservice(Request,Responce)呼び出し
+service==>DomainでRequest(大抵session,cookiも含んでいる)から内部用Requestを生成
+    CLIの場合Imputから内部用Requestを生成?
+requestのvalidate
+    errorだった場合、元の画面を表示したい場合、エラーメッセージはどうやって設定する?
+    restでPOSTの場合、GET(index)を内部で呼びたいけど、エラーメッセージは・・・
+actionにdomainからのデータをpropertyに設定(DTOの代わり)を設定==>action=service?
+viewにactionを渡し、Responceを生成
+serviceでcontrollerに渡すResponce(frameworkに合わせたresponce)を生成
+    CLIの場合Imputから内部用Outputを生成?
+controllerに渡す
+
+
+//config
+HTMLの固定文字のlang/jaの設定
+Enumの表示データ==>Enumからデータの変換はどうやる?
 
 

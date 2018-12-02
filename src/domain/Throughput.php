@@ -54,7 +54,7 @@ class Throughput extends AbstractModel
             $this->xactCommit *
             $this->unitTimeEnum /            
             (strtotime($this->timestamp) -
-            strtotime($stats_reset));
+            strtotime($this->stats_reset));
     }
     
     /**

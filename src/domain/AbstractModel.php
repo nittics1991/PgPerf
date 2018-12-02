@@ -130,7 +130,7 @@ abstract class AbstractModel
     *   @param string $name
     *   @param mixed $value
     **/
-    protected function propertyName(string $name, $value)
+    protected function castData(string $name, $value)
     {
         if (!isset($value)) {
             return;

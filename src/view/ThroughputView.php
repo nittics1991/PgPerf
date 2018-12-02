@@ -12,7 +12,7 @@ class ThroughputView extends AbstractView
 {
     protected function build(AbstractModel $model):array
     {
-        $title = 'Throughput';
+        $html.title = 'Throughput';
         
         $chartData = [
             

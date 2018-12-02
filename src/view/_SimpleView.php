@@ -35,14 +35,13 @@ class SimpleView
     /**
     *   render
     *
-    *   @param Action $model
+    *   @param AbstractModel $model
     **/
-    public function build(Action $action)
+    public function render(AbstractModel $model)
     {
-        extract($build->toArray());
-        extract($this->build($build));
+        extract($model->toArray());
+        extract($this->build($model));
         $this->header();
-        
         require($this->templateName);
     }
     
