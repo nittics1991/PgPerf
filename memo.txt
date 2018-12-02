@@ -82,7 +82,33 @@ controllerに渡す
 
 
 //config
-HTMLの固定文字のlang/jaの設定
-Enumの表示データ==>Enumからデータの変換はどうやる?
+HTMLの固定文字のlang/jaの設定==>title含む? CSSのbaseURLは?
+    actionが持つものは?
+        domainClass(複数)
+        request/responce(controllerから)
 
+Enumの表示データ==>Enumからデータの変換はどうやる?
+    //ruby sample
+    yaml//
+    ja:
+        article:
+            status:
+                deleted:'削除済'
+                draft:'下書き'
+                publish:'公開中'
+    //obj
+    Article.status.draftの形
+    Class.property.statusName
+    
+    //PHPで考えると
+    ArticleStatus:DRAFT
+    yaml//
+    ja:
+        ArticleStatus:
+            DRAFT:'下書き'
+    //camele case? lower?
+    //Enum.toString()==>article.status.draft?=>arrayDot
+    //Config classにarrayDotを継承?
+    //Action->Config->get(Enum.toString())==>長い templateの前で変換?
+    
 
